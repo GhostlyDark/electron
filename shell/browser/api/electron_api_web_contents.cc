@@ -3127,9 +3127,18 @@ void WebContents::ScrollToBottomOfDocument() {
   web_contents()->ScrollToBottomOfDocument();
 }
 
-void WebContents::AdjustSelectionByCharacterOffset(int start_adjust,
-                                                   int end_adjust,
-                                                   bool show_selection_menu) {
+void WebContents::AdjustSelectionByCharacterOffset(gin::Arguments* args) {
+  int start_adjust = 0;
+  int end_adjust = 0;
+  bool show_selection_menu = false;
+
+  gin_helper::Dictionary dict;
+  if (args->GetNext(&dict)) {
+    dict.Get("start", &start_adjust);
+    dict.Get("matchCase", &end_adjust);
+    dict.Get("showMenu", &show_selection_menu);
+  }
+
   web_contents()->AdjustSelectionByCharacterOffset(start_adjust, end_adjust,
                                                    show_selection_menu);
 }
